@@ -1,0 +1,198 @@
+<div class="row m-2 p-2">
+  <div class="col">
+    <h3>{{ title }}</h3>
+  </div>
+</div>
+<div class="row m-2 p-2">
+  <div class="col">
+    <table class="table table-bordered table-hover text-center" cellspacing="0" style="-webkit-box-shadow: 0 0 40px 5px rgba(0,0,0,0.3); box-shadow: 0 0 40px 5px rgba(0,0,0,0.3);">
+      <thead style="background-color: rgba(0, 0, 0, 0.7); color:white;">
+        <tr>
+          <td>Nom & Prénom</td>
+          <td>Email</td>
+          <td>Age</td>
+          <td>Adresse</td>
+          <td>Actions</td>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let personne of personnes; let currentElementIndex = index">
+          <td>{{ personne.nom }} {{ personne.prenom }}</td>
+          <td>{{ personne.email }}</td>
+          <td>{{ personne.age }}</td>
+          <td>{{ personne.adresse }}</td>
+          <td><a (click)="showPersonne(personne)" class="btn btn-primary" data-toggle="modal" data-target="#modifierPersonne"><i
+                class="fa fa-edit" aria-hidden="true"></i></a>&nbsp;<a (click)="deletePersonne(personne.id, currentElementIndex)"
+              class="btn btn-danger"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="modal fade" id="ajouterPersonne" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-light">
+        <h5 class="modal-title" id="exampleModalLongTitle">Ajouter une personne</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="angForm" novalidate>
+          <div class="form-group">
+            <label class="col-md-4">Nom</label>
+            <input type="text" class="form-control" name="nom" formControlName="nom" #nom />
+          </div>
+          <div *ngIf="angForm.controls['nom'].invalid && (angForm.controls['nom'].dirty || angForm.controls['nom'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="angForm.controls['nom'].errors.required">
+              Veuillez entrer le nom !
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Prénom</label>
+            <input type="text" class="form-control" name="prenom" formControlName="prenom" #prenom />
+          </div>
+          <div *ngIf="angForm.controls['prenom'].invalid && (angForm.controls['prenom'].dirty || angForm.controls['prenom'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="angForm.controls['prenom'].errors.required">
+              Veuillez entrer le prénom !
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Email</label>
+            <input type="email" class="form-control" name="email" formControlName="email" #email />
+          </div>
+          <div *ngIf="angForm.controls['email'].invalid && (angForm.controls['email'].dirty || angForm.controls['email'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="angForm.controls['email'].errors.required">
+              Veuillez entrer l'email !
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Password</label>
+            <input type="password" class="form-control" name="password" formControlName="password" #password />
+          </div>
+          <div *ngIf="angForm.controls['password'].invalid && (angForm.controls['password'].dirty || angForm.controls['password'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="angForm.controls['password'].errors.required">
+              Veuillez entrer le mot de passe !
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Age</label>
+            <input type="text" class="form-control" name="age" formControlName="age" #age />
+          </div>
+          <div *ngIf="angForm.controls['age'].invalid && (angForm.controls['age'].dirty || angForm.controls['age'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="angForm.controls['age'].errors.required">
+              Veuillez entrer l'age !
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Adresse</label>
+            <textarea class="form-control" name="adresse" formControlName="adresse" #adresse></textarea>
+          </div>
+          <div *ngIf="angForm.controls['adresse'].invalid && (angForm.controls['adresse'].dirty || angForm.controls['adresse'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="angForm.controls['adresse'].errors.required">
+              Veuillez entrer l'adresse !
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button id="annuler_modal" type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+        <button type="button" (click)="addPersonne(nom.value, prenom.value, email.value, password.value, age.value, adresse.value)"
+          [disabled]="angForm.pristine || angForm.invalid" class="btn btn-primary">Ajouter</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modifierPersonne" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-light">
+        <h5 class="modal-title" id="exampleModalLongTitle">Modifier une personne</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form [formGroup]="upangForm" novalidate>
+          <div class="form-group">
+            <label class="col-md-4">Nom</label>
+            <input type="text" class="form-control" name="upnom" formControlName="upnom" #upnom [(ngModel)]="upPersonne.nom" />
+          </div>
+          <div *ngIf="upangForm.controls['upnom'].invalid && (upangForm.controls['upnom'].dirty || upangForm.controls['upnom'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="upangForm.controls['upnom'].errors.required">
+              Veuillez entrer le nom !
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Prénom</label>
+            <input type="text" class="form-control" name="upprenom" formControlName="upprenom" #upprenom [(ngModel)]="upPersonne.prenom" />
+          </div>
+          <div *ngIf="upangForm.controls['upprenom'].invalid && (upangForm.controls['upprenom'].dirty || upangForm.controls['upprenom'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="upangForm.controls['upprenom'].errors.required">
+              Veuillez entrer le prénom !
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Email</label>
+            <input type="email" class="form-control" name="upemail" formControlName="upemail" #upemail [(ngModel)]="upPersonne.email" />
+          </div>
+          <div *ngIf="upangForm.controls['upemail'].invalid && (upangForm.controls['upemail'].dirty || upangForm.controls['upemail'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="upangForm.controls['upemail'].errors.required">
+              Veuillez entrer l'email !
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Password</label>
+            <input type="password" class="form-control" name="uppassword" formControlName="uppassword" #uppassword
+              [(ngModel)]="upPersonne.password" />
+          </div>
+          <div *ngIf="upangForm.controls['uppassword'].invalid && (upangForm.controls['uppassword'].dirty || upangForm.controls['uppassword'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="upangForm.controls['uppassword'].errors.required">
+              Veuillez entrer le mot de passe !
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Age</label>
+            <input type="text" class="form-control" name="upage" formControlName="upage" #upage [(ngModel)]="upPersonne.age" />
+          </div>
+          <div *ngIf="upangForm.controls['upage'].invalid && (upangForm.controls['upage'].dirty || upangForm.controls['upage'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="upangForm.controls['upage'].errors.required">
+              Veuillez entrer l'age !
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-4">Adresse</label>
+            <textarea class="form-control" name="upadresse" formControlName="upadresse" #upadresse [(ngModel)]="upPersonne.adresse"></textarea>
+          </div>
+          <div *ngIf="upangForm.controls['upadresse'].invalid && (upangForm.controls['upadresse'].dirty || upangForm.controls['upadresse'].touched)"
+            class="alert alert-danger">
+            <div *ngIf="upangForm.controls['upadresse'].errors.required">
+              Veuillez entrer l'adresse !
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <input type="hidden" class="form-control" name="upid" #upid [(ngModel)]="upPersonne.id" />
+        <button id="update_annuler_modal" type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+        <button (click)="updatePersonne(upnom.value, upprenom.value, upemail.value, uppassword.value, upage.value, upadresse.value, upid.value)"
+          [disabled]="upangForm.pristine || upangForm.invalid" class="btn btn-primary">Modifier</button>
+      </div>
+    </div>
+  </div>
+</div>
