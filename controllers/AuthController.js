@@ -2,6 +2,7 @@ const mysql = require('mysql'),
   config = require('../config/DB'),
   connection = mysql.createConnection(config.DB.dbconfig);
 var jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 
 exports.login = function (request, response) {
@@ -9,7 +10,7 @@ exports.login = function (request, response) {
     if (!request.body) throw new Error("Input not valid");
     let data = request.body;
     if (data) {
-      let sql = "SELECT * FROM personnes WHERE email = '" + data.email + "' AND password = '" + data.password + "';";
+      let sql = "SELECT * FROM personnes WHERE email = '" + data.email + "';";
       connection.query(sql, null, function (error, recordset) {
         if (error) {
           console.log(error);
@@ -20,18 +21,27 @@ exports.login = function (request, response) {
               message: 'Authentification échouée. Email ou mot de passe erroné !'
             });
           } else {
-            let user = {
-              nom: recordset[0].nom,
-              prenom: recordset[0].prenom,
-              email: recordset[0].email,
-              age: recordset[0].age,
-              adresse: recordset[0].adresse,
-            };
-            const token = jwt.sign(user, process.env.JWT_SECRET);
-            response.status(200).send({
-              user: user,
-              token: token,
-              message: 'OK !'
+            console.log(recordset[0].password);
+            bcrypt.compare(data.password, recordset[0].password, function (err, res) {
+              if (res) {
+                let user = {
+                  nom: recordset[0].nom,
+                  prenom: recordset[0].prenom,
+                  email: recordset[0].email,
+                  age: recordset[0].age,
+                  adresse: recordset[0].adresse,
+                };
+                const token = jwt.sign(user, process.env.JWT_SECRET);
+                response.status(200).send({
+                  user: user,
+                  token: token,
+                  message: 'OK !'
+                });
+              } else {
+                response.status(403).json({
+                  message: 'Authentification échouée. Email ou mot de passe erroné !'
+                });
+              }
             });
           }
         }

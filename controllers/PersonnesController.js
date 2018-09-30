@@ -1,6 +1,7 @@
 const mysql = require('mysql'),
   config = require('../config/DB'),
   connection = mysql.createConnection(config.DB.dbconfig);
+const bcrypt = require('bcrypt');
 
 
 // Fetch all data
@@ -32,34 +33,34 @@ exports.add = function (request, response) {
   try {
     if (!request.body) throw new Error("Input not valid");
     let data = request.body;
-
     if (data) {
-      let sql = 'INSERT INTO personnes SET ?';
-      let personne = {
-        nom: data.nom,
-        prenom: data.prenom,
-        email: data.email,
-        password: data.password,
-        age: data.age,
-        adresse: data.adresse
-      };
-      connection.query(sql, personne, function (error, recordset) {
-        if (error) {
-          console.log(error);
-          response.json(error);
-        } else {
-          response.status(200).json({
-            id: recordset.insertId,
-            nom: data.nom,
-            prenom: data.prenom,
-            email: data.email,
-            password: data.password,
-            age: data.age,
-            adresse: data.adresse
-          });
-          console.log(response);
-
-        }
+      bcrypt.hash(data.password, 10, function (err, hash) {
+        let sql = 'INSERT INTO personnes SET ?';
+        let personne = {
+          nom: data.nom,
+          prenom: data.prenom,
+          email: data.email,
+          password: hash,
+          age: data.age,
+          adresse: data.adresse
+        };
+        connection.query(sql, personne, function (error, recordset) {
+          if (error) {
+            console.log(error);
+            response.json(error);
+          } else {
+            response.status(200).json({
+              id: recordset.insertId,
+              nom: data.nom,
+              prenom: data.prenom,
+              email: data.email,
+              password: hash,
+              age: data.age,
+              adresse: data.adresse
+            });
+            console.log(response);
+          }
+        });
       });
     } else {
       throw new Error("Input not valid");
@@ -76,22 +77,24 @@ exports.update = function (request, response) {
     let data = request.body;
     if (data) {
       if (!request.params.id) throw new Error("ID not provided !");
-      let sql = "UPDATE personnes SET nom = '" + data.nom + "',  prenom = '" + data.prenom + "',  email = '" + data.email + "',  password = '" + data.password + "',  age = '" + data.age + "',  adresse = '" + data.adresse + "' WHERE id = " + request.params.id;
-      connection.query(sql, null, function (error, recordset) {
-        if (error) {
-          console.log(error);
-          response.json(error);
-        } else {
-          response.status(200).json({
-            id: request.params.id,
-            nom: data.nom,
-            prenom: data.prenom,
-            email: data.email,
-            password: data.password,
-            age: data.age,
-            adresse: data.adresse
-          });
-        }
+      bcrypt.hash(data.password, 10, function (err, hash) {
+        let sql = "UPDATE personnes SET nom = '" + data.nom + "',  prenom = '" + data.prenom + "',  email = '" + data.email + "',  password = '" + hash + "',  age = '" + data.age + "',  adresse = '" + data.adresse + "' WHERE id = " + request.params.id;
+        connection.query(sql, null, function (error, recordset) {
+          if (error) {
+            console.log(error);
+            response.json(error);
+          } else {
+            response.status(200).json({
+              id: request.params.id,
+              nom: data.nom,
+              prenom: data.prenom,
+              email: data.email,
+              password: hash,
+              age: data.age,
+              adresse: data.adresse
+            });
+          }
+        });
       });
     } else {
       throw new Error("Input not valid");
