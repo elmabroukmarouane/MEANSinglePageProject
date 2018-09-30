@@ -21,7 +21,6 @@ exports.login = function (request, response) {
               message: 'Authentification échouée. Email ou mot de passe erroné !'
             });
           } else {
-            console.log(recordset[0].password);
             bcrypt.compare(data.password, recordset[0].password, function (err, res) {
               if (res) {
                 let user = {

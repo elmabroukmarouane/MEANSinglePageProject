@@ -8,4 +8,4 @@ npm install --global node-gyp
 
 once installed, you will have all the node-gyp dependencies downloaded, but you still need the environment variable. Validate Python is indeed found in the correct folder:
 
-C:\Users\ben\.windows-build-tools\python27\python.exe 
+C:\Users\<your-username-windows>\.windows-build-tools\python27\python.exe 

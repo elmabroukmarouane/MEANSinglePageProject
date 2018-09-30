@@ -1,4 +1,4 @@
-# MEANSinglePageProject REST API Developed by MySQL, Express, Angular 6 & Node.js
+# MEANSinglePageProject REST API Developed by MySQL, Express, Angular 6 & Node.js (JWT & Bcrypt Hash Encryption)
 
 A [Angular](https://angular.io/), [Node.js](https://nodejs.org/en/) and [Express](https://expressjs.com/) application.
 

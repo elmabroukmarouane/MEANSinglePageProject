@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
 
   constructor(
     private _loadingBar: SlimLoadingBarService,
-    private _router: Router
+    public _router: Router
   ) {
     this._router.events.subscribe((event: Event) => {
       this.navigationInterceptor(event);

@@ -1,0 +1,1 @@
+Don't forget to restart apache after putting the .htaccess inside the folder root application

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le :  mer. 26 sep. 2018 à 21:04
+-- Généré le :  Dim 30 sep. 2018 à 15:22
 -- Version du serveur :  5.7.19
 -- Version de PHP :  7.1.9
 
@@ -16,10 +16,10 @@ SET time_zone = "+00:00";
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!40101 SET NAMES utf8 */;
 
 --
--- Base de données :  `mean-project-db`
+-- Base de données :  `mean_project_db`
 --
 
 -- --------------------------------------------------------
@@ -38,15 +38,16 @@ CREATE TABLE IF NOT EXISTS `personnes` (
   `age` text NOT NULL,
   `adresse` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `personnes`
 --
 
 INSERT INTO `personnes` (`id`, `nom`, `prenom`, `email`, `password`, `age`, `adresse`) VALUES
-(1, 'EMO', 'MIKO', 'emo@mail.com', '123456', '11', 'Tanger'),
-(2, 'CHIKO', 'RIKO', 'chico@mail.com', '123456', '22', 'Rabat');
+(1, 'BAKKALI', 'Mohamed', 'med@mail.com', '$2b$10$AsV25bQqhBK1P.FPiyKiFuplAofGJvLiXmxoARY7hbWZVwrO02kXi', '11', 'Tanger'),
+(2, 'TAMSAMANI', 'Ahmed', 'ahmed@mail.com', '$2b$10$AsV25bQqhBK1P.FPiyKiFuplAofGJvLiXmxoARY7hbWZVwrO02kXi', '22', 'Rabat'),
+(9, 'ALAMI', 'Ali', 'user@mail.com', '$2b$10$AsV25bQqhBK1P.FPiyKiFuplAofGJvLiXmxoARY7hbWZVwrO02kXi', '33', 'Casablanca');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

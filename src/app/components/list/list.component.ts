@@ -14,7 +14,7 @@ import 'datatables.net-bs4';
   styleUrls: ['./list.component.css']
 })
 export class ListComponent implements OnInit {
-  private title: String = 'Liste des personnes';
+  title: String = 'Liste des personnes';
   private message: String = '';
   personnes: Personnes[];
   upPersonne: any = {};
