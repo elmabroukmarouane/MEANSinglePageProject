@@ -38,8 +38,8 @@ export class ListComponent implements OnInit {
     this.angForm = this.fb.group({
       nom: ['', Validators.required],
       prenom: ['', Validators.required],
-      email: ['', Validators.required],
-      password: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
       age: ['', Validators.required],
       adresse: ['', Validators.required]
     });
@@ -49,8 +49,8 @@ export class ListComponent implements OnInit {
     this.upangForm = this.fb.group({
       upnom: ['', Validators.required],
       upprenom: ['', Validators.required],
-      upemail: ['', Validators.required],
-      uppassword: ['', Validators.required],
+      upemail: ['', [Validators.required, Validators.email]],
+      uppassword: ['', [Validators.required, Validators.minLength(6)]],
       upage: ['', Validators.required],
       upadresse: ['', Validators.required]
     });
